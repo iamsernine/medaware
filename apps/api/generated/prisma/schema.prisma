@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PATIENT
+  DOCTOR
+}
+
+enum QuestionStatus {
+  OPEN
+  CLOSED
+}
+
+model User {
+  id                 String   @id @default(uuid())
+  display_name       String
+  role               UserRole
+  is_verified_doctor Boolean  @default(false)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  questions Question[]
+  answers   Answer[]
+}
+
+model Question {
+  id         String         @id @default(uuid())
+  author_id  String
+  title      String
+  body       String
+  tags       String[]
+  status     QuestionStatus @default(OPEN)
+  created_at DateTime       @default(now())
+  updated_at DateTime       @updatedAt
+
+  author  User     @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  answers Answer[]
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  question_id String
+  doctor_id   String
+  body        String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  question Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
+  doctor   User     @relation(fields: [doctor_id], references: [id], onDelete: Cascade)
+}

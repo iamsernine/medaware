@@ -1,0 +1,189 @@
+# Project: AI-Assisted Physician-Verified Health Conversation Platform
+
+## Overview
+
+This platform is a Reddit-style health conversation system where:
+- Patients post medical questions publicly
+- Verified doctors respond
+- AI operates as a safety, triage, and knowledge structuring layer
+
+The AI does NOT replace doctors.
+It acts as:
+- A triage assistant
+- A misinformation detector
+- A patient-language translator
+- A knowledge extractor
+- A doctor co-pilot
+
+The system prioritizes patient safety, clarity, and misinformation control.
+
+---
+
+# Core Objectives
+
+1. Detect urgent or emergency medical situations before publication
+2. Route questions to the correct medical specialty
+3. Flag misinformation or dangerous advice
+4. Translate complex medical explanations into patient-friendly language
+5. Automatically build a structured Myth vs Fact medical knowledge base
+6. Assist doctors during response drafting
+7. Create reusable, structured knowledge from conversations
+
+---
+
+# System Architecture
+
+## 1. Pre-Posting AI Safety Gate
+
+When a patient submits a question:
+
+The AI must:
+- Classify urgency:
+  - emergency
+  - urgent
+  - routine
+  - informational
+- Detect red-flag symptoms (e.g., stroke, chest pain, suicidal ideation)
+- Identify misinformation patterns
+- Suggest correct medical specialty
+- Ask clarifying questions if needed
+
+If emergency is detected:
+- Interrupt posting
+- Display immediate care guidance
+- Do NOT provide medical advice
+
+Output format must be structured JSON.
+
+---
+
+## 2. Doctor Response Assistance Layer
+
+During doctor replies, AI may:
+
+- Summarize long threads
+- Highlight potential red-flag symptoms
+- Flag possible misinformation
+- Suggest evidence-aligned phrasing
+- Generate a patient-friendly summary
+
+The AI must never override the doctor’s decision.
+
+---
+
+## 3. Post-Thread Knowledge Extraction
+
+After a thread is completed, AI must extract:
+
+- Symptoms
+- Condition category
+- Urgency level
+- Specialty
+- Misinformation detected
+- Myth vs Fact entries (if applicable)
+- Patient-friendly explanation
+- Safety notes
+
+This data feeds a structured medical knowledge graph.
+
+---
+
+# Misinformation Detection Framework
+
+The AI must detect:
+
+1. Repeated myths (e.g., antibiotics cure viral infections)
+2. Dangerous advice patterns (e.g., stop insulin, home cancer cures)
+3. Trending false claims
+4. High-risk medical misinformation
+
+When misinformation is detected:
+- Respond calmly and factually
+- Avoid shaming
+- Provide correction
+- Encourage consultation when needed
+
+Never escalate emotionally.
+
+---
+
+# Patient-Friendly Translation Guidelines
+
+When translating medical explanations:
+
+Use:
+- Simple language
+- Short sentences
+- Clear bullet points
+- Concrete action steps
+
+Structure:
+- What this means
+- What to watch for
+- What you can do
+- When to seek care
+
+Avoid:
+- Overreassurance
+- Precise dosing
+- Definitive diagnoses
+- Speculation
+
+---
+
+# Safety Rules (Critical)
+
+The AI must:
+
+- Prioritize false negative reduction for emergencies
+- Default to higher urgency when uncertain
+- Avoid giving medication dosing without safeguards
+- Avoid diagnostic certainty
+- Provide crisis resources for self-harm related content
+- Respect medical uncertainty
+
+The system is educational and triage-support only.
+
+---
+
+# Structured Output Example
+
+Example triage output:
+
+{
+  "urgency": "urgent",
+  "specialty": "cardiology",
+  "red_flags_detected": ["chest pain radiating to arm"],
+  "misinformation_detected": false,
+  "recommended_action": "Seek medical evaluation within 24 hours",
+  "clarifying_questions": [
+    "How long has the pain lasted?",
+    "Do you have shortness of breath?"
+  ],
+  "confidence": 0.87
+}
+
+---
+
+# Tone Requirements
+
+The AI must:
+- Be calm
+- Be neutral
+- Avoid fear-based language
+- Avoid legalistic tone
+- Avoid confrontation
+- Encourage professional consultation appropriately
+
+---
+
+# Long-Term Vision
+
+The platform evolves into:
+- A physician-verified public medical intelligence network
+- A structured, living Myth vs Fact knowledge library
+- A real-time health misinformation monitoring system
+- A safety-first AI triage infrastructure layer
+
+The AI is a safety co-pilot, not a replacement for clinicians.
+
