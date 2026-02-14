@@ -26,9 +26,3 @@ pnpm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
-
-# Turbo
-.turbo/
-
-# Prisma
-apps/api/prisma/migrations/**/migration_lock.toml
