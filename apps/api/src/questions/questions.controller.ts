@@ -14,6 +14,7 @@ export class QuestionsController {
   async findAll(
     @Query('search') search?: string,
     @Query('tag') tag?: string,
+    @Query('category') category?: string,
     @Query('author_id') author_id?: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
@@ -23,6 +24,7 @@ export class QuestionsController {
     const result = await this.questionsService.findAll({
       search,
       tag,
+      category,
       author_id,
       page: page ? parseInt(page, 10) : undefined,
       limit: limit ? parseInt(limit, 10) : undefined,
@@ -30,6 +32,16 @@ export class QuestionsController {
       userId: xUserId ?? undefined,
     })
     return result
+  }
+
+  @Get('tags')
+  async getTags() {
+    return this.questionsService.getTags()
+  }
+
+  @Get(':id/similar')
+  async findSimilar(@Param('id') id: string, @Query('limit') limit?: string) {
+    return this.questionsService.findSimilar(id, limit ? parseInt(limit, 10) : 5)
   }
 
   @Get(':id')

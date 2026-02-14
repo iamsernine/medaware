@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useUser } from '../context/UserContext'
+import { Card, CardContent } from '../components/ui/card'
+import { Badge } from '../components/ui/badge'
 
 export function MyQuestions() {
   const { user } = useUser()
@@ -24,22 +26,34 @@ export function MyQuestions() {
       .finally(() => setLoading(false))
   }, [user?.id])
 
-  if (!user) return <p>Select a patient user to see your questions.</p>
-  if (user.role !== 'PATIENT') return <p>Only patients have "my questions."</p>
+  if (!user) return <p className="text-muted-foreground">Select a user to see questions you've asked.</p>
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p style={{ color: '#f55' }}>Error: {error}</p>
-  if (questions.length === 0) return <p>You have not posted any questions yet.</p>
+  if (loading) return <p className="text-muted-foreground">Loading...</p>
+  if (error) return <p className="text-destructive">Error: {error}</p>
+  if (questions.length === 0) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <p className="text-muted-foreground">You have not posted any questions yet.</p>
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
-    <ul style={{ listStyle: 'none', padding: 0 }}>
+    <ul className="list-none space-y-3 p-0">
       {questions.map((q) => (
-        <li key={q.id} style={{ borderBottom: '1px solid #333', padding: '12px 0' }}>
-          <Link to={`/q/${q.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-            <strong>{q.title}</strong>
-            <div style={{ fontSize: 14, color: '#888' }}>
-              {q.status} · {new Date(q.created_at).toLocaleDateString()}
-            </div>
+        <li key={q.id}>
+          <Link to={`/q/${q.id}`} className="block text-foreground no-underline hover:opacity-90">
+            <Card className="transition-colors hover:bg-card/80">
+              <CardContent className="p-4">
+                <p className="font-semibold leading-tight">{q.title}</p>
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                  <Badge variant="secondary">{q.status}</Badge>
+                  <span>{new Date(q.created_at).toLocaleDateString()}</span>
+                </div>
+              </CardContent>
+            </Card>
           </Link>
         </li>
       ))}

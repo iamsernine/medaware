@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api/client'
+import { Button } from './ui/button'
+import { Textarea } from './ui/textarea'
 
 interface AnswerEditorProps {
   questionId?: string
@@ -56,15 +58,17 @@ export function AnswerEditor({ questionId, answer, currentUser, onCreated, onUpd
 
   if (questionId) {
     return (
-      <div style={{ marginTop: 24 }}>
-        <textarea
+      <div className="mt-6 space-y-3">
+        <Textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="Your answer (20–5000 chars)"
           rows={5}
-          style={{ width: '100%', padding: 8, marginBottom: 8 }}
+          className="min-h-[120px]"
         />
-        <button onClick={handleSubmit} disabled={submitting || body.length < 20}>Post Answer</button>
+        <Button onClick={handleSubmit} disabled={submitting || body.length < 20}>
+          {submitting ? 'Posting...' : 'Post Answer'}
+        </Button>
       </div>
     )
   }
@@ -72,17 +76,27 @@ export function AnswerEditor({ questionId, answer, currentUser, onCreated, onUpd
   if (answer && isOwner) {
     if (editing) {
       return (
-        <div style={{ marginTop: 8 }}>
-          <textarea value={body} onChange={(e) => setBody(e.target.value)} rows={4} style={{ width: '100%', padding: 8, marginBottom: 8 }} />
-          <button onClick={handleSubmit} disabled={submitting}>Save</button>
-          <button onClick={() => setEditing(false)} style={{ marginLeft: 8 }}>Cancel</button>
+        <div className="mt-2 space-y-2">
+          <Textarea value={body} onChange={(e) => setBody(e.target.value)} rows={4} />
+          <div className="flex gap-2">
+            <Button size="sm" onClick={handleSubmit} disabled={submitting}>
+              Save
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => setEditing(false)}>
+              Cancel
+            </Button>
+          </div>
         </div>
       )
     }
     return (
-      <div style={{ marginTop: 8, fontSize: 14 }}>
-        <button onClick={() => setEditing(true)}>Edit</button>
-        <button onClick={handleDelete} style={{ marginLeft: 8, color: '#f55' }}>Delete</button>
+      <div className="mt-2 flex gap-2 text-sm">
+        <Button size="sm" variant="ghost" onClick={() => setEditing(true)}>
+          Edit
+        </Button>
+        <Button size="sm" variant="destructive" onClick={handleDelete}>
+          Delete
+        </Button>
       </div>
     )
   }

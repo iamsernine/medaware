@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react'
+import { Button } from './ui/button'
+import { ThumbsUp } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface VoteButtonProps {
   voteCount: number
@@ -39,22 +42,17 @@ export function VoteButton({ voteCount, hasVoted = false, onVote, onUnvote, disa
   }
 
   return (
-    <button
+    <Button
       type="button"
+      variant={voted ? 'default' : 'outline'}
+      size="sm"
       onClick={handleClick}
       disabled={disabled || loading}
       title={title ?? (voted ? 'Remove vote' : 'Vote up')}
-      style={{
-        background: voted ? '#0a6' : 'transparent',
-        color: voted ? '#fff' : '#888',
-        border: '1px solid #444',
-        padding: '4px 8px',
-        borderRadius: 4,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        fontSize: 14,
-      }}
+      className={cn('gap-1.5', voted && 'bg-primary')}
     >
-      👍 {count}
-    </button>
+      <ThumbsUp className="size-4" />
+      {count}
+    </Button>
   )
 }

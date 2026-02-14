@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { IsString, IsArray, IsOptional, IsEnum, MinLength, MaxLength, ArrayMaxSize } from 'class-validator'
-import { QuestionStatus } from '@prisma/client'
+import { QuestionStatus, QuestionCategory } from '@prisma/client'
 
 export class UpdateQuestionDto {
   @ApiPropertyOptional()
@@ -28,4 +28,9 @@ export class UpdateQuestionDto {
   @IsOptional()
   @IsEnum(QuestionStatus)
   status?: QuestionStatus
+
+  @ApiPropertyOptional({ enum: ['GENERAL', 'SYMPTOMS', 'MEDICATION', 'DIAGNOSIS', 'OTHER'] })
+  @IsOptional()
+  @IsEnum(QuestionCategory)
+  category?: QuestionCategory
 }

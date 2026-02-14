@@ -8,22 +8,29 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto', padding: 16 }}>
-      <header style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <h1 style={{ margin: 0, fontSize: 24 }}>MedAware</h1>
-          </Link>
-          <nav style={{ marginTop: 8, fontSize: 14 }}>
-            <Link to="/" style={{ marginRight: 16, color: '#888' }}>Feed</Link>
-            <Link to="/patient/new" style={{ marginRight: 16, color: '#888' }}>Ask Question</Link>
-            <Link to="/patient/mine" style={{ marginRight: 16, color: '#888' }}>My Questions</Link>
-            <Link to="/doctor/inbox" style={{ color: '#888' }}>Doctor Inbox</Link>
-          </nav>
-        </div>
-        <ActiveUserDropdown />
-      </header>
-      <main>{children}</main>
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-3xl px-4 py-6">
+        <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <Link to="/" className="block text-foreground no-underline hover:opacity-90">
+              <h1 className="m-0 text-2xl font-bold tracking-tight">MedAware</h1>
+            </Link>
+            <nav className="mt-2 flex flex-wrap gap-4 text-sm">
+              <Link to="/" className="text-muted-foreground hover:text-foreground">
+                Feed
+              </Link>
+              <Link to="/new" className="text-muted-foreground hover:text-foreground">
+                Ask Question
+              </Link>
+              <Link to="/mine" className="text-muted-foreground hover:text-foreground">
+                My Questions
+              </Link>
+            </nav>
+          </div>
+          <ActiveUserDropdown />
+        </header>
+        <main>{children}</main>
+      </div>
     </div>
   )
 }

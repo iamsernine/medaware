@@ -1,7 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : '')
 
 const isConnectionError = (err: unknown) =>
-  err instanceof TypeError && (err.message === 'Failed to fetch' || (err as Error).cause?.toString?.().includes('ECONNREFUSED'))
+  err instanceof TypeError && (err.message === 'Failed to fetch' || String((err as Error & { cause?: unknown }).cause ?? '').includes('ECONNREFUSED'))
 
 async function request<T>(
   path: string,
@@ -34,16 +34,20 @@ async function request<T>(
 export const api = {
   getUsers: () => request<any[]>('/users'),
   getUser: (id: string) => request<any>(`/users/${id}`),
-  getQuestions: (params?: { search?: string; tag?: string; author_id?: string; page?: number; limit?: number; sort?: 'newest' | 'votes'; userId?: string }) => {
+  getQuestions: (params?: { search?: string; tag?: string; category?: string; author_id?: string; page?: number; limit?: number; sort?: 'newest' | 'votes'; userId?: string }) => {
     const q = new URLSearchParams()
     if (params?.search) q.set('search', params.search)
     if (params?.tag) q.set('tag', params.tag)
+    if (params?.category) q.set('category', params.category)
     if (params?.author_id) q.set('author_id', params.author_id)
     if (params?.page) q.set('page', String(params.page))
     if (params?.limit) q.set('limit', String(params.limit))
     if (params?.sort) q.set('sort', params.sort)
     return request<any[]>(`/questions?${q}`, params?.userId ? { userId: params.userId } : undefined)
   },
+  getTags: () => request<string[]>('/questions/tags'),
+  getSimilarQuestions: (questionId: string, limit = 5) =>
+    request<any[]>(`/questions/${questionId}/similar?limit=${limit}`),
   getQuestion: (id: string, userId?: string) =>
     request<any>(`/questions/${id}`, userId ? { userId } : undefined),
   voteQuestion: (questionId: string, userId: string) =>
@@ -54,9 +58,9 @@ export const api = {
     request<{ voteCount: number }>(`/answers/${answerId}/vote`, { method: 'POST', userId }),
   unvoteAnswer: (answerId: string, userId: string) =>
     request<{ voteCount: number }>(`/answers/${answerId}/vote`, { method: 'DELETE', userId }),
-  createQuestion: (body: { title: string; body: string; tags?: string[] }, userId: string) =>
+  createQuestion: (body: { title: string; body: string; tags?: string[]; category?: string }, userId: string) =>
     request<any>('/questions', { method: 'POST', body: JSON.stringify(body), userId }),
-  updateQuestion: (id: string, body: Partial<{ title: string; body: string; tags: string[]; status: 'OPEN' | 'CLOSED' }>, userId: string) =>
+  updateQuestion: (id: string, body: Partial<{ title: string; body: string; tags: string[]; status: 'OPEN' | 'CLOSED'; category?: string }>, userId: string) =>
     request<any>(`/questions/${id}`, { method: 'PATCH', body: JSON.stringify(body), userId }),
   deleteQuestion: (id: string, userId: string) =>
     request<void>(`/questions/${id}`, { method: 'DELETE', userId }),

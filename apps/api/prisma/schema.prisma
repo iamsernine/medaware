@@ -17,6 +17,19 @@ enum QuestionStatus {
   CLOSED
 }
 
+enum QuestionCategory {
+  GENERAL
+  SYMPTOMS
+  MEDICATION
+  DIAGNOSIS
+  OTHER
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+}
+
 model User {
   id                String    @id @default(uuid())
   display_name      String
@@ -32,14 +45,15 @@ model User {
 }
 
 model Question {
-  id        String         @id @default(uuid())
+  id        String             @id @default(uuid())
   author_id String
   title     String
   body      String
   tags      String[]
-  status    QuestionStatus @default(OPEN)
-  created_at DateTime      @default(now())
-  updated_at DateTime      @updatedAt
+  category  QuestionCategory   @default(GENERAL)
+  status    QuestionStatus     @default(OPEN)
+  created_at DateTime         @default(now())
+  updated_at DateTime         @updatedAt
 
   author        User           @relation(fields: [author_id], references: [id], onDelete: Cascade)
   answers       Answer[]
