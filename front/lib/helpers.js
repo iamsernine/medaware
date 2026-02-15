@@ -31,3 +31,16 @@ export const CATEGORY_MAP = [
     { re: /\b(child|pediatr|infant|baby|toddler)\b/i, label: 'Pediatrics', cat: 'pediatrics' },
     { re: /\b(anxiety|depress|mental|therapy|psych|panic)\b/i, label: 'Psychiatry', cat: 'psychiatry' },
 ];
+
+/** Map backend /classify/category response `category` to { label, cat, type } for UI */
+export const CATEGORY_LABEL_BY_CAT = {
+    cardiology: { label: 'Cardiology', cat: 'cardiology', type: 'specialty' },
+    neurology: { label: 'Neurology', cat: 'neurology', type: 'specialty' },
+    dermatology: { label: 'Dermatology', cat: 'dermatology', type: 'specialty' },
+    orthopedics: { label: 'Orthopedics', cat: 'orthopedics', type: 'specialty' },
+    gastro: { label: 'Gastroenterology', cat: 'gastro', type: 'specialty' },
+    ophthalmology: { label: 'Ophthalmology', cat: 'ophthalmology', type: 'specialty' },
+    pediatrics: { label: 'Pediatrics', cat: 'pediatrics', type: 'specialty' },
+    psychiatry: { label: 'Psychiatry', cat: 'psychiatry', type: 'specialty' },
+    general: { label: 'General', cat: 'general', type: 'general' },
+};

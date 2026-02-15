@@ -1,71 +1,20 @@
-# 🏥 MedAware — Community Health Forum
+# MedAware - Frontend
 
-> A mobile-first community health Q&A platform built with **Next.js 15**. Ask health questions, get verified professional answers, and join a supportive medical community — powered by Moroccan users across the Kingdom 🇲🇦
+A mobile-first community health Q&A platform built with **Next.js**. Ask health questions, get verified professional answers, and join a supportive medical community.
 
----
-
-## ✨ Features
-
-| Feature | Description |
-|---|---|
-| **Health Feed** | Browse, search & filter health questions by trending, newest, or unanswered |
-| **AI Triage** | Automatic category detection (Cardiology, Neurology, Dermatology…) when creating posts |
-| **MythShield™** | Fact-check panels with WHO/CDC/Harvard sources on common health myths |
-| **Expert Badges** | Verified professionals (doctors, nurses) are visually distinguished |
-| **Emergency Detection** | Auto-detects urgent keywords (chest pain, stroke…) and shows a 🚨 banner with emergency resources |
-| **Voting & Reactions** | Upvote/downvote posts, react to comments with "thanked" & "informative" |
-| **User Profiles** | Editable profile with bio, location, stats, and recent activity |
-| **Bookmarks** | Save posts for later (persisted in localStorage) |
-| **Toast Notifications** | Contextual success toasts for actions |
-| **Bottom Navigation** | Mobile-style nav bar (Home, Create, Profile) |
-
----
-
-## 📸 Screenshots
-
-### Home Feed
-
-| Trending (default) | Newest | Unanswered |
-|:---:|:---:|:---:|
-| ![Trending](public/screenshots/01_home_trending.png) | ![Newest](public/screenshots/02_home_newest.png) | ![Unanswered](public/screenshots/03_home_unanswered.png) |
-
-| Search | Verified Pro Only |
-|:---:|:---:|
-| ![Search](public/screenshots/04_home_search.png) | ![Pro Only](public/screenshots/05_home_pro_only.png) |
-
-### Thread View
-
-| Post Detail + Expert Response | MythShield & Comments | Upvote Interaction |
-|:---:|:---:|:---:|
-| ![Thread](public/screenshots/06_thread_top.png) | ![MythShield](public/screenshots/07_thread_mythshield.png) | ![Upvote](public/screenshots/08_thread_upvote.png) |
-
-### Create Post
-
-| Empty Form | AI Triage Detection | Emergency Banner |
-|:---:|:---:|:---:|
-| ![Empty](public/screenshots/10_create_empty.png) | ![AI Triage](public/screenshots/11_create_ai_triage.png) | ![Emergency](public/screenshots/12_create_emergency.png) |
-
-### Profile
-
-| Profile View | Edit Profile Modal |
-|:---:|:---:|
-| ![Profile](public/screenshots/13_profile_view.png) | ![Edit Modal](public/screenshots/15_profile_edit_modal.png) |
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - **Node.js** ≥ 18
-- **npm** (or yarn / pnpm / bun)
+- **npm** (or yarn / pnpm)
 
 ### Installation
 
 ```bash
 # Clone the repo
 git clone <your-repo-url>
-cd 1337
+cd medaware/front
 
 # Install dependencies
 npm install
@@ -76,16 +25,23 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### AI category classification
+
+To use AI triage when creating posts, run the **back** API and set the classify URL:
+
+- In `back/`: copy `.env.example` to `.env`, set `MINIMAX_API_KEY`, then `npm run build` and `npm start` (see [../back/README.md](../back/README.md)).
+- In the front, set `NEXT_PUBLIC_CLASSIFY_API=http://localhost:3001` (or your back URL). If unset, the app falls back to regex-based category detection.
+
 ---
 
-## 🗂 Project Structure
+## Project Structure
 
 ```
-1337/
+front/
 ├── app/
 │   ├── layout.js           # Root layout with ToastProvider & BottomNav
 │   ├── page.js             # Home feed — search, filter, post list
-│   ├── globals.css         # Full design system (tokens, components, animations)
+│   ├── globals.css         # Design system (tokens, components, animations)
 │   ├── create/
 │   │   └── page.js         # Create Post — AI triage, emergency detection
 │   ├── post/
@@ -95,15 +51,15 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ├── components/
 │   ├── BottomNav.js        # Mobile bottom navigation
 │   ├── CommentBubble.js    # Comment display with reactions & replies
-│   ├── EmergencyBanner.js  # 🚨 Emergency detection banner
+│   ├── EmergencyBanner.js  # Emergency detection banner
 │   ├── ExpertCard.js       # Verified professional response card
 │   ├── FilterTabs.js       # Trending / Newest / Unanswered tabs
 │   ├── Modal.js            # Reusable modal overlay
-│   ├── MythShield.js       # AI fact-check panel with sources
+│   ├── MythShield.js       # Fact-check panel with sources
 │   ├── PostCard.js         # Post card for the feed
 │   └── VotePill.js         # Upvote/downvote pill
 ├── context/
-│   └── ToastContext.js     # Global toast notification context
+│   └── ToastContext.js      # Global toast notification context
 ├── lib/
 │   ├── db.js               # localStorage-backed database with seed data
 │   └── helpers.js          # Shared utilities (timeAgo, category detection, etc.)
@@ -112,66 +68,51 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 👥 Seed Data — Moroccan Community
+## Tech Stack
 
-The app ships with realistic mock data featuring **Moroccan users** across multiple cities:
-
-| Name | Role | City |
-|---|---|---|
-| **Yassine Bennani** | Community Member (you) | Casablanca |
-| **Dr. Karim El Fassi** | Cardiologist ✅ | Rabat |
-| **Fatima Zahra Ouali, IDE** | Emergency Nurse ✅ | Tanger |
-| **Mohamed Amrani** | Fitness Enthusiast | Marrakech |
-| **Hajar Idrissi** | Health Myth Debunker | Fès |
-| **Omar Tazi** | Chronic Migraine Patient | Meknès |
-| **Dr. Amine Cherkaoui, MD** | Ophthalmologist ✅ | Agadir |
-| **Salma Berrada** | Wellness Blogger & Mom | Oujda |
-
-The seed includes **12 health posts** covering cardiology, neurology, dermatology, psychiatry, pediatrics, ophthalmology, and general health — plus **10 threaded comments** with expert responses and community discussion.
-
----
-
-## 🧰 Tech Stack
-
-- **Framework**: [Next.js 15](https://nextjs.org) (App Router)
+- **Framework**: [Next.js](https://nextjs.org) (App Router)
 - **Language**: JavaScript (React)
-- **Styling**: Vanilla CSS with CSS custom properties
+- **Styling**: Vanilla CSS with custom properties
 - **Typography**: [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts
 - **Icons**: [Material Icons Round](https://fonts.google.com/icons)
-- **Storage**: `localStorage` (no backend required)
+- **Storage**: `localStorage` (no backend required for core features)
 
 ---
 
-## 🔧 Key Implementation Details
+## Implementation Notes
 
-### Database Layer (`lib/db.js`)
+### Database (`lib/db.js`)
 
-A fully client-side data layer using `localStorage`:
-- **Auto-seeding**: On first load, generates the full Moroccan user community + posts + comments
-- **CRUD API**: `getPosts()`, `addPost()`, `votePost()`, `getComments()`, `addComment()`, `reactToComment()`
-- **Reset**: Call `resetDB()` to clear all data and re-seed
+Client-side data layer using `localStorage`:
 
-### AI Triage System (`lib/helpers.js` + `app/create/page.js`)
+- **Auto-seeding**: First load generates users, posts, and comments
+- **CRUD**: `getPosts()`, `addPost()`, `votePost()`, `getComments()`, `addComment()`, `reactToComment()`
+- **Reset**: `resetDB()` clears and re-seeds
 
-When composing a post, the description is scanned against regex patterns to auto-detect the medical specialty. An animated "AI Triage analyzing…" overlay appears, followed by a category badge.
+### AI Triage
+
+When composing a post, the description is used to suggest a category:
+
+- If **back** is running and `NEXT_PUBLIC_CLASSIFY_API` is set: `POST /classify/category` (Minimax LLM) is used.
+- Otherwise: regex-based detection in `lib/helpers.js` (CATEGORY_MAP).
 
 ### Emergency Detection
 
-Keywords like *chest pain*, *heart attack*, *stroke*, *can't breathe*, *seizure*, *overdose*, and *suicid* trigger an emergency banner with a direct link to Google Maps for the nearest ER.
+Keywords such as _chest pain_, _heart attack_, _stroke_, _can't breathe_, _seizure_, _overdose_ trigger an emergency banner with a link to find the nearest ER (e.g. Google Maps).
 
 ---
 
-## 📋 Available Scripts
+## Scripts
 
-| Command | Action |
-|---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| Command         | Action                   |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Build for production     |
+| `npm run start` | Start production server  |
+| `npm run lint`  | Run ESLint               |
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes.

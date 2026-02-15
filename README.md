@@ -1,76 +1,95 @@
 # MedAware
 
-Reddit-style medical Q&A MVP. Patients post questions; verified doctors respond. No authentication—users are simulated via dropdown selection and `x-user-id` header.
+> Community-driven medical Q&A for **MedAware**: a place where patients ask, doctors respond, and people share from their experience — **to counter health misinformation** that circulates online and in traditional practices and can seriously impact people’s health.
 
-## Prerequisites
+## Why MedAware?
 
-- Node.js 18+
-- pnpm
-- Docker (for Postgres)
+Health misinformation spreads easily, from traditional remedies to viral "advice" that can seriously harm. Wrong information in domains like cardiology, mental health, pediatrics, or general wellness can have a real, negative impact on people's health.
 
-## Setup
+MedAware aims to be **a solution for that misinformation**: a place where questions get clear answers, where verified professionals can weigh in, and where the community can learn from shared experience so people can make better, safer health decisions.
 
-1. **Install dependencies**
-   ```bash
-   pnpm install
-   ```
+## Why MedAware?
 
-2. **Start Postgres**
-   ```bash
-   docker compose up -d
-   ```
+Misinformation in healthcare — from folk remedies to viral “tips” — can do real harm. MedAware aims to be part of the solution: structured Q&A, verified professionals, and community experience in one place, so people can make safer, better-informed health decisions across domains like cardiology, mental health, pediatrics, and general wellness.
 
-3. **Configure environment**
-   - Copy `apps/api/.env.example` to `apps/api/.env`
-   - Set `DATABASE_URL` (default: `postgresql://medaware:medaware@localhost:5432/medaware`)
+---
 
-4. **Run migrations**
-   ```bash
-   pnpm --filter api exec prisma migrate deploy
-   ```
+## Features
 
-5. **Seed database**
-   ```bash
-   pnpm db:seed
-   ```
+| Feature                 | Description                                                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Health Feed**         | Browse, search & filter health questions by trending, newest, or unanswered                                                 |
+| **AI Triage**           | Automatic category detection (Cardiology, Neurology, Dermatology…) when creating posts (optional backend: `back` / Minimax) |
+| **MythShield™**         | Fact-check panels with WHO/CDC/Harvard sources on common health myths                                                       |
+| **Expert Badges**       | Verified professionals (doctors, nurses) are visually distinguished                                                         |
+| **Emergency Detection** | Auto-detects urgent keywords (chest pain, stroke…) and shows a banner with emergency resources                              |
+| **Voting & Reactions**  | Upvote/downvote posts; react to comments with “thanked” & “informative”                                                     |
+| **User Profiles**       | Editable profile with bio, location, stats, and recent activity                                                             |
+| **Bookmarks**           | Save posts for later (persisted in localStorage)                                                                            |
+| **Toast Notifications** | Contextual success toasts for actions                                                                                       |
+| **Bottom Navigation**   | Mobile-style nav (Home, Create, Profile)                                                                                    |
 
-6. **Start development**
-   ```bash
-   pnpm dev
-   ```
+---
 
-- **Web**: http://localhost:5173
-- **API**: http://localhost:3001
-- **Swagger**: http://localhost:3001/docs
+## Seed Data — Community
 
-## Seeded Users
+The app ships with realistic mock data (e.g. Moroccan community):
 
-| Role              | display_name   | Notes                         |
-|-------------------|----------------|-------------------------------|
-| PATIENT           | Patient Alice  | Can create questions          |
-| PATIENT           | Patient Bob    | Can create questions          |
-| DOCTOR (verified) | Dr. Smith      | Can create/edit/delete answers|
-| DOCTOR            | Dr. Unverified | Cannot create answers         |
+| Name                        | Role                     | City       |
+| --------------------------- | ------------------------ | ---------- |
+| **Yassine Bennani**         | Community Member (you)   | Casablanca |
+| **Dr. Karim El Fassi**      | Cardiologist ✅          | Rabat      |
+| **Fatima Zahra Ouali, IDE** | Emergency Nurse ✅       | Tanger     |
+| **Mohamed Amrani**          | Fitness Enthusiast       | Marrakech  |
+| **Hajar Idrissi**           | Health Myth Debunker     | Fès        |
+| **Omar Tazi**               | Chronic Migraine Patient | Meknès     |
+| **Dr. Amine Cherkaoui, MD** | Ophthalmologist ✅       | Agadir     |
+| **Salma Berrada**           | Wellness Blogger & Mom   | Oujda      |
 
-Use the "Active User" dropdown to switch identities.
+Seed includes health posts across cardiology, neurology, dermatology, psychiatry, pediatrics, ophthalmology, and general health, plus threaded comments with expert and community responses.
 
-## Endpoints
+---
 
-| Method | Path                       | Auth        |
-|--------|----------------------------|-------------|
-| GET    | /users                     | No          |
-| GET    | /users/:id                 | No          |
-| GET    | /questions                 | No          |
-| GET    | /questions/:id             | No          |
-| POST   | /questions                 | x-user-id   |
-| PATCH  | /questions/:id             | x-user-id   |
-| DELETE | /questions/:id             | x-user-id   |
-| POST   | /questions/:id/answers     | x-user-id   |
-| PATCH  | /answers/:id               | x-user-id   |
-| DELETE | /answers/:id               | x-user-id   |
+## Screenshots
 
-## Validation
+### Home Feed
 
-- Question title: 5–120 characters
-- Question/Answer body: 20–5000 characters
-- Tags: max 5 per question
+|                     Trending (default)                      |                         Newest                          |                           Unanswered                            |
+| :---------------------------------------------------------: | :-----------------------------------------------------: | :-------------------------------------------------------------: |
+| ![Trending](/front/public/screenshots/01_home_trending.png) | ![Newest](/front/public/screenshots/02_home_newest.png) | ![Unanswered](/front/public/screenshots/03_home_unanswered.png) |
+
+|                         Search                          |                      Verified Pro Only                      |
+| :-----------------------------------------------------: | :---------------------------------------------------------: |
+| ![Search](/front/public/screenshots/04_home_search.png) | ![Pro Only](/front/public/screenshots/05_home_pro_only.png) |
+
+### Thread View
+
+|             Post Detail + Expert Response              |                       MythShield & Comments                       |                    Upvote Interaction                     |
+| :----------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------: |
+| ![Thread](/front/public/screenshots/06_thread_top.png) | ![MythShield](/front/public/screenshots/07_thread_mythshield.png) | ![Upvote](/front/public/screenshots/08_thread_upvote.png) |
+
+### Create Post
+
+|                       Empty Form                        |                       AI Triage Detection                       |                        Emergency Banner                         |
+| :-----------------------------------------------------: | :-------------------------------------------------------------: | :-------------------------------------------------------------: |
+| ![Empty](/front/public/screenshots/10_create_empty.png) | ![AI Triage](/front/public/screenshots/11_create_ai_triage.png) | ![Emergency](/front/public/screenshots/12_create_emergency.png) |
+
+### Profile
+
+|                       Profile View                        |                         Edit Profile Modal                         |
+| :-------------------------------------------------------: | :----------------------------------------------------------------: |
+| ![Profile](/front/public/screenshots/13_profile_view.png) | ![Edit Modal](/front/public/screenshots/15_profile_edit_modal.png) |
+
+---
+
+## What’s in this repo
+
+| Part      | Description                                                                                                                                    |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **front** | Next.js web app: health feed, create post (with AI category triage), thread view, profiles, MythShield fact-check panels, emergency detection. |
+| **back**  | NestJS API (JavaScript): `POST /classify/category` for medical text classification via Minimax LLM (used by the front for AI triage).          |
+
+## Quick start
+
+- **Frontend**: see [front/README.md](front/README.md) for setup and run (`npm install`, `npm run dev`).
+- **Backend** (optional, for AI category detection): see [back/README.md](back/README.md). Set `MINIMAX_API_KEY` in `back/.env`, then `npm run build` and `npm start` in `back/`.
