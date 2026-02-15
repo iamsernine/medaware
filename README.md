@@ -8,10 +8,6 @@ Health misinformation spreads easily, from traditional remedies to viral "advice
 
 MedAware aims to be **a solution for that misinformation**: a place where questions get clear answers, where verified professionals can weigh in, and where the community can learn from shared experience so people can make better, safer health decisions.
 
-## Why MedAware?
-
-Misinformation in healthcare — from folk remedies to viral “tips” — can do real harm. MedAware aims to be part of the solution: structured Q&A, verified professionals, and community experience in one place, so people can make safer, better-informed health decisions across domains like cardiology, mental health, pediatrics, and general wellness.
-
 ---
 
 ## Features
